@@ -2,7 +2,7 @@
  * angular-ui-bootstrap
  * http://angular-ui.github.io/bootstrap/
 
- * Version: 0.13.0 - 2015-05-02
+ * Version: 0.13.0 - 2015-05-12
  * License: MIT
  */
 angular.module("ui.bootstrap", ["ui.bootstrap.tpls", "ui.bootstrap.collapse","ui.bootstrap.accordion","ui.bootstrap.alert","ui.bootstrap.bindHtml","ui.bootstrap.buttons","ui.bootstrap.carousel","ui.bootstrap.dateparser","ui.bootstrap.position","ui.bootstrap.datepicker","ui.bootstrap.dropdown","ui.bootstrap.modal","ui.bootstrap.pagination","ui.bootstrap.tooltip","ui.bootstrap.popover","ui.bootstrap.progressbar","ui.bootstrap.rating","ui.bootstrap.tabs","ui.bootstrap.timepicker","ui.bootstrap.transition","ui.bootstrap.typeahead"]);
@@ -1796,7 +1796,8 @@ angular.module('ui.bootstrap.dropdown', ['ui.bootstrap.position'])
       getIsOpen,
       setIsOpen = angular.noop,
       toggleInvoker = $attrs.onToggle ? $parse($attrs.onToggle) : angular.noop,
-      appendToBody = false;
+      appendToBody = false,
+      placement = 'bottom-left';
 
   this.init = function( element ) {
     self.$element = element;
@@ -1811,6 +1812,7 @@ angular.module('ui.bootstrap.dropdown', ['ui.bootstrap.position'])
     }
 
     appendToBody = angular.isDefined($attrs.dropdownAppendToBody);
+    placement = $attrs.placement || placement;
 
     if ( appendToBody && self.dropdownMenu ) {
       $document.find('body').append( self.dropdownMenu );
@@ -1849,7 +1851,7 @@ angular.module('ui.bootstrap.dropdown', ['ui.bootstrap.position'])
 
   scope.$watch('isOpen', function( isOpen, wasOpen ) {
     if ( appendToBody && self.dropdownMenu ) {
-      var pos = $position.positionElements(self.$element, self.dropdownMenu, 'bottom-left', true);
+      var pos = $position.positionElements(self.$element, self.dropdownMenu, placement, true);
       self.dropdownMenu.css({
         top: pos.top + 'px',
         left: pos.left + 'px',
@@ -4707,19 +4709,6 @@ angular.module("template/popover/popover-template.html", []).run(["$templateCach
     "      <div class=\"popover-content\"\n" +
     "        tooltip-template-transclude=\"contentExp()\"\n" +
     "        tooltip-template-transclude-scope=\"originScope()\"></div>\n" +
-    "  </div>\n" +
-    "</div>\n" +
-    "");
-}]);
-
-angular.module("template/popover/popover-window.html", []).run(["$templateCache", function($templateCache) {
-  $templateCache.put("template/popover/popover-window.html",
-    "<div class=\"popover {{placement}}\" ng-class=\"{ in: isOpen, fade: animation }\">\n" +
-    "  <div class=\"arrow\"></div>\n" +
-    "\n" +
-    "  <div class=\"popover-inner\">\n" +
-    "      <h3 class=\"popover-title\" ng-bind=\"title\" ng-show=\"title\"></h3>\n" +
-    "      <div class=\"popover-content\" tooltip-template-transclude></div>\n" +
     "  </div>\n" +
     "</div>\n" +
     "");

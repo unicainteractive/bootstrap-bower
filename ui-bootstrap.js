@@ -2,7 +2,7 @@
  * angular-ui-bootstrap
  * http://angular-ui.github.io/bootstrap/
 
- * Version: 0.13.0 - 2015-05-02
+ * Version: 0.13.0 - 2015-05-12
  * License: MIT
  */
 angular.module("ui.bootstrap", ["ui.bootstrap.collapse","ui.bootstrap.accordion","ui.bootstrap.alert","ui.bootstrap.bindHtml","ui.bootstrap.buttons","ui.bootstrap.carousel","ui.bootstrap.dateparser","ui.bootstrap.position","ui.bootstrap.datepicker","ui.bootstrap.dropdown","ui.bootstrap.modal","ui.bootstrap.pagination","ui.bootstrap.tooltip","ui.bootstrap.popover","ui.bootstrap.progressbar","ui.bootstrap.rating","ui.bootstrap.tabs","ui.bootstrap.timepicker","ui.bootstrap.transition","ui.bootstrap.typeahead"]);
@@ -1795,7 +1795,8 @@ angular.module('ui.bootstrap.dropdown', ['ui.bootstrap.position'])
       getIsOpen,
       setIsOpen = angular.noop,
       toggleInvoker = $attrs.onToggle ? $parse($attrs.onToggle) : angular.noop,
-      appendToBody = false;
+      appendToBody = false,
+      placement = 'bottom-left';
 
   this.init = function( element ) {
     self.$element = element;
@@ -1810,6 +1811,7 @@ angular.module('ui.bootstrap.dropdown', ['ui.bootstrap.position'])
     }
 
     appendToBody = angular.isDefined($attrs.dropdownAppendToBody);
+    placement = $attrs.placement || placement;
 
     if ( appendToBody && self.dropdownMenu ) {
       $document.find('body').append( self.dropdownMenu );
@@ -1848,7 +1850,7 @@ angular.module('ui.bootstrap.dropdown', ['ui.bootstrap.position'])
 
   scope.$watch('isOpen', function( isOpen, wasOpen ) {
     if ( appendToBody && self.dropdownMenu ) {
-      var pos = $position.positionElements(self.$element, self.dropdownMenu, 'bottom-left', true);
+      var pos = $position.positionElements(self.$element, self.dropdownMenu, placement, true);
       self.dropdownMenu.css({
         top: pos.top + 'px',
         left: pos.left + 'px',
